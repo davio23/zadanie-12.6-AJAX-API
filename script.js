@@ -7,13 +7,21 @@ function searchCountries() {
     $.ajax({
         url: url + countryName,
         method: 'GET',
-        success: showCountriesList
+        success: showCountriesList,
+
+        complete: function (xhr) { // po skonczeniu zapytania
+            if (xhr.status == 404) { //jesli status to 404 
+
+                alert('Brak wynikow'); //to alert brak wynikow
+                countriesList.empty(); // i wyczysc liste
+            }
+        }
     });
 }
 
 function showCountriesList(resp) {
     countriesList.empty();
-    resp.forEach(function(item) {
+    resp.forEach(function (item) {
         $('<li>').text(item.name).appendTo(countriesList);
     });
 }
